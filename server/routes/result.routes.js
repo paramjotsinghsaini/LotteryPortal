@@ -1,4 +1,4 @@
-const { jwtAuth  } = require("../middleware");
+const { jwtAuth, participantsCheck  } = require("../middleware");
 const resultController = require("../controllers/result.controller");
 
 module.exports = function(app) {
@@ -12,7 +12,7 @@ module.exports = function(app) {
   
   app.get(
     "/lottery/result",
-    [jwtAuth.verifyToken],
+    [jwtAuth.verifyToken, participantsCheck.checkMinParticipantRequirement],
     resultController.getWinner
   );
 };

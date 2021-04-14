@@ -12,7 +12,7 @@ module.exports = function(app) {
 
   app.get(
     "/ticket/buy",
-    [jwtAuth.verifyToken, BeforeTicketPurchase.checkBalance, BeforeTicketPurchase.verifyTicket],
+    [jwtAuth.verifyToken, BeforeTicketPurchase.verifyTicket, BeforeTicketPurchase.checkBalance],
     ticketController.ticketCreate
   );
 };
