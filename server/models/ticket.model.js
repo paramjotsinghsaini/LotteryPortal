@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const Ticket = sequelize.define("tickets", {
+    const Ticket = sequelize.define("ticket", {
         eventId: {
             type: Sequelize.INTEGER
         },
