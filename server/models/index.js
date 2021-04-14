@@ -30,22 +30,6 @@ User = require("./user.model")(sequelize, Sequelize);
 Credit = require("./credits.model")(sequelize, Sequelize);
 Events = require("./events.model")(sequelize, Sequelize);
 Ticket = require("./ticket.model")(sequelize, Sequelize);
-//user hasOne credits
-// User.hasOne(Credit, { as: 'credits'});
-//user hasMany ticket
-// User.hasMany(Ticket);
-
-//credits belongsTo user
-// Credit.belongsTo(User);
-
-// events hasMany tickets
-// Events.hasMany(Ticket);
-
-// ticket belongs to event
-// Ticket.belongsTo(Events);
-//ticket belings to user
-// Ticket.belongsTo(User);
-
 
 //Providing Welcome Credits to user
 User.addHook('afterCreate', (user, options) => {
@@ -63,6 +47,7 @@ User.addHook('afterCreate', (user, options) => {
   });
 });
 
+// removing credits from user account 
 Ticket.addHook('afterCreate', async (ticket, options) => {
   var entryFee = 0;
   var event = await Events.findByPk(ticket.eventId);

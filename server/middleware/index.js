@@ -1,11 +1,9 @@
 const jwtAuth = require("./jwtAuth.middleware");
 const verifySignUp = require("./verifySignUp.middleware");
-const verifyTicketPurchase = require("./verifyTicketPurchase.middleware");
-const checkBalanceBeforePurchase = require("./checkBalanceBeforePurchase.middleware");
+const BeforeTicketPurchase = require("./BeforeTicketPurchase.middleware");
 
 module.exports = {
   jwtAuth,
   verifySignUp,
-  verifyTicketPurchase,
-  checkBalanceBeforePurchase
+  BeforeTicketPurchase
 };

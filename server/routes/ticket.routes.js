@@ -1,4 +1,4 @@
-const { jwtAuth, verifyTicketPurchase, checkBalanceBeforePurchase } = require("../middleware");
+const { jwtAuth, BeforeTicketPurchase } = require("../middleware");
 const ticketController = require("../controllers/ticket.controller");
 
 module.exports = function(app) {
@@ -12,7 +12,7 @@ module.exports = function(app) {
 
   app.get(
     "/ticket/buy",
-    [jwtAuth.verifyToken, checkBalanceBeforePurchase.checkBalance, verifyTicketPurchase.verifyTicket],
+    [jwtAuth.verifyToken, BeforeTicketPurchase.checkBalance, BeforeTicketPurchase.verifyTicket],
     ticketController.ticketCreate
   );
 };
