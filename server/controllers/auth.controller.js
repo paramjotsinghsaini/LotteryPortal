@@ -2,14 +2,14 @@ const db = require("../models");
 const config = require("../config/auth");
 const User = db.user;
 const saltRounds = 10;
-var jwt = require("jsonwebtoken");
-var bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 
   exports.signup = (req, res) => {
     // Save User to Database
     User.create({
       name: req.body.name,
-      email: req.body.email,
+      username: req.body.username,
       password: bcrypt.hashSync(req.body.password, saltRounds),
       active: 1
     })
@@ -24,7 +24,7 @@ var bcrypt = require("bcrypt");
   exports.signin = (req, res) => {
     User.findOne({
       where: {
-        email: req.body.email
+        username: req.body.username
       }
     })
     .then(user => {
@@ -32,7 +32,7 @@ var bcrypt = require("bcrypt");
         return res.status(404).send({ message: "User Not found." });
       }
 
-      var passwordIsValid = bcrypt.compareSync(
+      const passwordIsValid = bcrypt.compareSync(
         req.body.password,
         user.password
       );
@@ -44,13 +44,13 @@ var bcrypt = require("bcrypt");
         });
       }
 
-      var token = jwt.sign({ id: user.id }, config.secret, {
+      const token = jwt.sign({ id: user.id }, config.secret, {
         expiresIn: 86400 // 24 hours
       });
       res.status(200).send({
         id: user.id,
         name: user.name,
-        email: user.email,
+        username: user.username,
         accessToken: token,
         // credits: credits.amount
       });

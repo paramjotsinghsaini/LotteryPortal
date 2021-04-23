@@ -6,7 +6,7 @@ module.exports = (sequelize, Sequelize) => {
         userId: {
             type: Sequelize.INTEGER
         },
-        ticket: {
+        number: {
             type: Sequelize.STRING
         }
     });

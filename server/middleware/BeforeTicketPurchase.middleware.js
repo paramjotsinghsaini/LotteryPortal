@@ -24,8 +24,8 @@ verifyTicket = (req, res, next) => {
 
 checkBalance = async (req, res, next) => {
     // check if user has sufficient balance
-    var event = await Events.findByPk(req.query.event_id);
-    var credit = await Credit.findOne({
+    const event = await Lottery.findByPk(req.query.event_id);
+    const credit = await Credit.findOne({
         where: {
             userId: req.userId
         }

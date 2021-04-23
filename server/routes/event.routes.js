@@ -1,18 +1,12 @@
+const express = require('express');
+const router = express.Router();
 const { jwtAuth } = require("../middleware");
 const eventController = require("../controllers/event.controller");
 
-module.exports = function(app) {
-  app.use(function(req, res, next) {
-    res.header(
-      "Access-Control-Allow-Headers",
-      "x-access-token, Origin, Content-Type, Accept"
-    );
-    next();
-  });
+router.use(jwtAuth.verifyToken)
+      .post(
+        "/add", eventController.eventCreate
+      )
+      .get("/lottery", eventController.event);
 
-  app.post(
-    "/event/add",
-    [jwtAuth.verifyToken],
-    eventController.eventCreate
-  );
-};
+module.exports = router

@@ -1,26 +1,16 @@
 const db = require("../models");
 const Ticket = db.ticket;
 
-checkMinParticipantRequirement = async (req, res, next) => {
+checkMaxParticipant = async (req, res, next) => {
     // check if lottery meet minimum requirement
-    var event = await Events.findByPk(req.query.event_id);
-    var tickets = await Ticket.findAll({ where: { eventId: req.query.event_id }, hierarchy: true });
-    var participantsCount = tickets.length;
-    if(participantsCount < event.minParticipants){
-        tickets.forEach(async ticket => {
-            var credit = await Credit.findOne({where: { userId: ticket.userId}});
-            var returnCredit = credit.amount + event.entryFee;
-            Credit.update(
-                { amount: returnCredit },
-                { where: { userId: ticket.userId } }
-            )
-        });
-        await Ticket.destroy({where: {
-                eventId: req.query.event_id 
-            }
-        });
+    const event = await Lottery.findByPk(req.query.event_id, {include: Ticket});
+    console.log(event);
+    const tickets = await Ticket.findAll({ where: { eventId: req.query.event_id }, hierarchy: true });
+    const participantsCount = tickets.length;
+    if(participantsCount == event.maxParticipants){
+        
         res.send({
-            message: "Lottery didn't meet minimum participants requirement"
+            message: "Lottery reached participants requirement"
         });
         return;
     }
@@ -28,7 +18,7 @@ checkMinParticipantRequirement = async (req, res, next) => {
 };
 
 const participantsCheck = {
-    checkMinParticipantRequirement: checkMinParticipantRequirement
+    checkMinParticipantRequirement: checkMaxParticipant
 };
 
 module.exports = participantsCheck;

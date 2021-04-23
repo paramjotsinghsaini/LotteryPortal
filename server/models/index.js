@@ -1,7 +1,6 @@
 const config = require("../config/connection.js");
 
 const Sequelize = require("sequelize");
-const { user } = require("../config/connection.js");
 //initializing sequelize
 const sequelize = new Sequelize(
   config.database,
@@ -28,13 +27,13 @@ db.sequelize = sequelize;
 // create db object with all the table instances
 User = require("./user.model")(sequelize, Sequelize);
 Credit = require("./credits.model")(sequelize, Sequelize);
-Events = require("./events.model")(sequelize, Sequelize);
+Lottery = require("./events.model")(sequelize, Sequelize);
 Ticket = require("./ticket.model")(sequelize, Sequelize);
 
 //Providing Welcome Credits to user
 User.addHook('afterCreate', (user, options) => {
   Credit.create({
-    user_id: user.id,
+    userId: user.id,
     amount: 1000
   })
   .then(credit => {
@@ -50,10 +49,10 @@ User.addHook('afterCreate', (user, options) => {
 // removing credits from user account 
 Ticket.addHook('afterCreate', async (ticket, options) => {
   var entryFee = 0;
-  var event = await Events.findByPk(ticket.eventId);
-  entryFee = event.entryFee;
+  const lottery = await Lottery.findByPk(ticket.eventId);
+  entryFee = lottery.entryFee;
   var userCredits = 0;
-  var credit = await Credit.findOne({
+  const credit = await Credit.findOne({
       where: {
           userId: ticket.userId
       }
@@ -70,9 +69,20 @@ Ticket.addHook('afterCreate', async (ticket, options) => {
   )
   
 });
+
+User.hasOne(Credit);
+Credit.belongsTo(User);
+//User.hasOne(Ticket, {through: UserTickets});
+Ticket.belongsTo(Lottery, {foreignKey: 'eventId'});
+Lottery.hasMany(Ticket);
+
+User.hasMany(Ticket);
+Ticket.belongsTo(User);
+
+
 db.user = User;
 db.credit = Credit;
-db.event = Events;
+db.lottery = Lottery;
 db.ticket = Ticket;
 
 

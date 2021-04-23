@@ -6,11 +6,14 @@ module.exports = (sequelize, Sequelize) => {
         entryFee: {
             type: Sequelize.INTEGER
         },
-        minParticipants: {
+        maxParticipants: {
             type: Sequelize.INTEGER
         },
         timer: {
             type: Sequelize.INTEGER
+        },
+        img: {
+            type: Sequelize.STRING
         }
     });
   
