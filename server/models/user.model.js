@@ -11,6 +11,9 @@ module.exports = (sequelize, Sequelize) => {
         },
         active: {
             type: Sequelize.INTEGER
+        },
+        isAdmin: {
+            type: Sequelize.INTEGER
         }
     });
   
