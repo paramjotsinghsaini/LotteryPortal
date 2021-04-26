@@ -25,7 +25,7 @@ const authCheck = (Component) => () => {
     );
   }else{
     <Redirect to="/login" />
-  );
+  }
 };
 const adminCheck = (Component) => () => {
   const user = getUser();
