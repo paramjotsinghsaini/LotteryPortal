@@ -34,7 +34,7 @@ export default function EventList() {
             var lotteries = data.lotteries.slice(0,5);
             setRows(lotteries);
         });
-        var interval = setInterval(() => {
+        setInterval(() => {
             socket.emit("getLotteries");
         }, 1000)
     },[]);

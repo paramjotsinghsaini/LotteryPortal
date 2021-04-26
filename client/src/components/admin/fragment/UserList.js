@@ -33,7 +33,7 @@ export default function UserList() {
             var users = data.users.slice(0,5);
             setRows(users);
         });
-        var interval = setInterval(() => {
+        setInterval(() => {
             socket.emit("getUsers");
         }, 1000)
     },[]);
