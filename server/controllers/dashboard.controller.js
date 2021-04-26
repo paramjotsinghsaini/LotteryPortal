@@ -6,7 +6,7 @@ const Sequelize = db.Sequelize;
     const credit = await Credit.findOne({
         where: {
             userId: req.userId
-        }
+        },
     });
     return res.json(credit);
   };

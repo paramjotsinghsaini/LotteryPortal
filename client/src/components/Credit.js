@@ -18,7 +18,10 @@ export default function Credit() {
     useEffect(() => {
         const user = getUser();
         credits().then((credits)=>{
-            setCredit(credits.data.amount);
+            if(credits && credits.data)
+            {
+                setCredit(credits.data.amount);
+            }
         });
         setInterval( () => {
             socket.emit('user', {userId: user.id});
