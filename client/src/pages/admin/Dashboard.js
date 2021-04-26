@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
-import clsx from 'clsx';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import { default as Dash } from '../../components/admin/Dashboard';
 import AdminHeader from '../../components/admin/AdminHeader';

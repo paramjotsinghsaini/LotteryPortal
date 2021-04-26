@@ -6,9 +6,9 @@ import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import Copyright from '../../components/Copyright';
 import AdminHeader from '../../components/admin/AdminHeader';
-import { Link as LinkCom, useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Button from '@material-ui/core/Button';
-import { getLotteryUsingId, getUserUsingId, saveLottery, saveUser } from '../../functions/admin';
+import { getLotteryUsingId, saveLottery } from '../../functions/admin';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,7 +44,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function LotteryForm() {
-  const history         = useHistory();
   const params          = useParams();
   const classes         = useStyles();
   const [header, setHeader]         = useState("");

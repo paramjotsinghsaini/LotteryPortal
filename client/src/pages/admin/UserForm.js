@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import Copyright from '../../components/Copyright';
 import AdminHeader from '../../components/admin/AdminHeader';
-import { Link as LinkCom, useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Button from '@material-ui/core/Button';
 import { getUserUsingId, saveUser } from '../../functions/admin';
 
@@ -44,7 +44,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function UserForm() {
-  const history = useHistory();
   const params = useParams();
   const classes = useStyles();
   const [header, setHeader]         = useState("");
@@ -67,6 +66,7 @@ export default function UserForm() {
     {
       setHeader("Update User");
       getUserUsingId(params.userId).then(response => {
+        setId(response.data.id);
         setName(response.data.name);
         setUsername(response.data.username);
       }).catch(err => console.log(err.message));
