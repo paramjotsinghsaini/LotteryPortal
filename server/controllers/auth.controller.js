@@ -2,8 +2,8 @@ const db = require("../models");
 const config = require("../config/auth");
 const User = db.user;
 const saltRounds = 10;
-const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
   exports.signup = (req, res) => {
     // Save User to Database
@@ -29,7 +29,7 @@ const bcrypt = require("bcrypt");
     })
     .then(user => {
       if (!user) {
-        return res.status(404).send({ message: "User Not found." });
+        return res.status(401).send({ message: "User Not found." });
       }
 
       const passwordIsValid = bcrypt.compareSync(
@@ -52,7 +52,7 @@ const bcrypt = require("bcrypt");
         name: user.name,
         username: user.username,
         accessToken: token,
-        // credits: credits.amount
+        isAdmin: user.isAdmin
       });
     })
     .catch(err => {

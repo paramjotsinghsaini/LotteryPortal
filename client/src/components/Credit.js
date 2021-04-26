@@ -20,7 +20,7 @@ export default function Credit() {
         credits().then((credits)=>{
             setCredit(credits.data.amount);
         });
-        var interval = setInterval( () => {
+        setInterval( () => {
             socket.emit('user', {userId: user.id});
         }, 1000)
         socket.on('Credits', data => {
@@ -28,10 +28,6 @@ export default function Credit() {
             {
                 setCredit(data.amount);
             }
-        });
-        socket.on('logout', data => {
-            console.log(data.message);
-            clearInterval(interval);
         });
     },[]);
 

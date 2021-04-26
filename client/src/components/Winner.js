@@ -56,7 +56,7 @@ const Winner = (props) => {
               }
               if(lottery)
               {
-                const amt = lottery.entryFee * 5;
+                const amt = lottery.entryFee * lottery.maxParticipants;
                 setAmount(amt)
               }
             }

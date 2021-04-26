@@ -3,7 +3,6 @@ const db = require("../models");
 const Credit = db.credit;
 const Lottery = db.lottery;
 const User = db.user;
-const Sequelize = db.Sequelize;
 
 const getCredits = async (socket, userId) => {
     await Credit.findOne({
@@ -15,6 +14,34 @@ const getCredits = async (socket, userId) => {
     })
     .catch((err) => console.log(err.message));
 };
+
+const getUserList = async (socket) => {
+    await User.findAll({
+                where:{
+                    isAdmin: 0
+                },
+                order: [
+                    ['createdAt', 'DESC']
+                ],
+                include: Credit
+            })
+            .then((users) => {
+                socket.emit('UserList', { users: users });
+            })
+            .catch((err) => console.log(err.message));
+}
+const getEventList = async (socket) => {
+    await Lottery.findAll({
+                order: [
+                    ['createdAt', 'DESC']
+                ],
+                include: Ticket
+            })
+            .then((lotteries) => {
+                socket.emit('LotteryList', { lotteries: lotteries });
+            })
+            .catch((err) => console.log(err.message));
+}
 
 const getTicket = async (socket, eventId, userId) => {
     await Ticket.findOne({
@@ -98,11 +125,8 @@ const mainSocket = (io) => {
     .on('connection', (socket) => { 
         allClients.push(socket);
         // console.log("New client connected");
-        var interval = "";
         socket.on('user', data => {
-            interval = setInterval( async () => {
-                getCredits(socket, data.userId);
-            }, 1000)
+            getCredits(socket, data.userId);
         })
         .on("checkParticipants", (data) => {
             if(data && data.eventId)
@@ -122,19 +146,18 @@ const mainSocket = (io) => {
                 getTicket(socket, data.eventId, data.userId);
             }
         })
+        .on('getUsers', () => {
+            getUserList(socket);
+        })
+        .on('getLotteries', () => {
+            getEventList(socket);
+        })
         .on('disconnect', function() {
             console.log('Got disconnect!');
-      
+            socket.emit('logout', {message: "Disconnected"});
             var i = allClients.indexOf(socket);
             allClients.splice(i, 1);
          })
-        .on('logout', data => {
-            clearInterval(interval);
-            socket.emit('logout', {message: "Disconnected"});
-            socket.disconnect(()=>{
-                console.log("User Disconnected");
-            });
-        })
 
     });
 }

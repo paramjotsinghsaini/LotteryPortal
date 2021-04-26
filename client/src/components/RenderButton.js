@@ -2,12 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import { useHistory } from "react-router-dom";
 import { buyTicket } from '../functions/ticket';
-import { credits, getUser } from '../functions/authUser';
+import { getUser } from '../functions/authUser';
 import { socket } from '../services/socket';
 
-const display = {
-                    display: "none"
-                }
 const setDisabled = (ifTicketPurchased, ifTicketSold, insufficientCredits) => {
     if(ifTicketPurchased === true)
     {
@@ -39,7 +36,6 @@ export default function RenderButton(props){
         }
     };
 
-    const [logged, setLogged] = useState(false);
     const [text, setText] = useState("Buy");
     const [ifTicketPurchased, setIfTicketPurchased] = useState(false);
     const [ifTicketSold, setIfTicketSold] = useState(false);
