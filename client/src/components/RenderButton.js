@@ -5,6 +5,7 @@ import { buyTicket } from '../functions/ticket';
 import { getUser } from '../functions/authUser';
 import { socket } from '../services/socket';
 
+
 const setDisabled = (ifTicketPurchased, ifTicketSold, insufficientCredits) => {
     if(ifTicketPurchased === true)
     {
@@ -81,7 +82,7 @@ export default function RenderButton(props){
                 setText("Buy")
             }
         })
-        var interval = setInterval(()=>{
+        setInterval(()=>{
             socket.emit("checkParticipants", {eventId: props.id});
             socket.emit("ticketPurchased", {eventId: props.id, userId: user.id});
         }, 1000);

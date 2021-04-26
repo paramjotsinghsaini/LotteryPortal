@@ -32,6 +32,7 @@ const dashboardRoutes = require('./routes/dashboard.routes');
 const eventRoutes = require('./routes/event.routes');
 const resultRoutes = require('./routes/result.routes');
 const ticketRoutes = require('./routes/ticket.routes');
+const adminRoutes = require('./routes/admin.routes');
 
 app.use('/', indexRoutes);
 app.use('/auth', authRoutes);
@@ -39,6 +40,7 @@ app.use('/', dashboardRoutes);
 app.use('/event', eventRoutes);
 app.use('/result', resultRoutes);
 app.use('/ticket', ticketRoutes);
+app.use('/admin', adminRoutes);
 
 // error handler
 app.use(function(err, req, res, next) {

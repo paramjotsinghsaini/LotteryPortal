@@ -53,12 +53,18 @@ export default function Signin() {
     const handleLogin = (e) => {
         e.preventDefault();
         login(username, password, remember).then(response => {
-            history.push("/dashboard");
+            if(response.isAdmin === 1)
+              history.push("/admin/dashboard");
+            else
+              history.push("/dashboard");
             window.location.reload();   
         })
         .catch(err => {
-            console.log(err);
-            setError(err.message);
+            if(err.response.status === 401)
+            {
+              setError("User and Password Combination Not Found");
+              alert("User and Password Combination Not Found");
+            }
         })
     }
     useEffect(() => {
@@ -118,7 +124,7 @@ export default function Signin() {
             </Button>
             <Grid container>
               <Grid item>
-              <Link component={LinkCom} to="/register" variant="body2">
+                <Link component={LinkCom} to="/register" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
